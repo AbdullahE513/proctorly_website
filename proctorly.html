@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proctorly — Stay Focused. Stay Honest.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="icon" href="images/logo.png" type="image/png" />
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0d1f3c;
+    --navy-mid: #162d54;
+    --blue: #1a3a6e;
+    --accent: #2e6be6;
+    --accent-light: #5b8ff9;
+    --sky: #c8deff;
+    --white: #ffffff;
+    --gray-light: #f3f6fb;
+    --gray: #8a9ab8;
+    --text: #0d1f3c;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--white);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4 { font-family: 'Syne', sans-serif; }
+
+  /* ─── NAV ─────────────────────────────── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 6%;
+    background: rgba(13, 31, 60, 0.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.35rem; font-weight: 800;
+    color: var(--white);
+    letter-spacing: -0.5px;
+  }
+  .nav-logo span { color: var(--accent-light); }
+  .nav-links { display: flex; gap: 2.2rem; list-style: none; }
+  .nav-links a {
+    color: rgba(255,255,255,0.7); text-decoration: none;
+    font-size: 0.9rem; font-weight: 500;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--white); }
+  .nav-cta {
+    background: var(--accent); color: var(--white);
+    padding: 0.6rem 1.4rem; border-radius: 50px;
+    text-decoration: none; font-size: 0.88rem; font-weight: 600;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .nav-cta:hover { background: var(--accent-light); transform: translateY(-1px); }
+
+  /* ─── HERO ────────────────────────────── */
+  .hero {
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--navy) 0%, #0a2040 50%, #0e2850 100%);
+    display: flex; align-items: center;
+    padding: 8rem 6% 5rem;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 70% 60% at 65% 50%, rgba(46,107,230,0.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 4rem; align-items: center;
+    max-width: 1200px; margin: 0 auto; width: 100%;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: rgba(91,143,249,0.15); border: 1px solid rgba(91,143,249,0.3);
+    color: var(--accent-light); padding: 0.4rem 1rem;
+    border-radius: 50px; font-size: 0.8rem; font-weight: 600;
+    letter-spacing: 0.5px; margin-bottom: 1.6rem;
+    animation: fadeUp 0.6s ease both;
+  }
+  .hero-badge::before { content: '●'; font-size: 0.5rem; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  .hero h1 {
+    font-size: clamp(2.8rem, 5vw, 4.5rem);
+    font-weight: 800; line-height: 1.08;
+    color: var(--white);
+    letter-spacing: -2px;
+    margin-bottom: 1.2rem;
+    animation: fadeUp 0.7s ease 0.1s both;
+  }
+  .hero h1 .accent { color: var(--accent-light); }
+
+  .hero-sub {
+    font-size: 1.1rem; line-height: 1.7;
+    color: rgba(255,255,255,0.65);
+    max-width: 480px;
+    margin-bottom: 2.5rem;
+    animation: fadeUp 0.7s ease 0.2s both;
+  }
+  .hero-btns {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    animation: fadeUp 0.7s ease 0.3s both;
+  }
+  .btn-primary {
+    background: var(--accent); color: var(--white);
+    padding: 0.9rem 2rem; border-radius: 50px;
+    font-size: 0.95rem; font-weight: 600;
+    text-decoration: none; border: none; cursor: pointer;
+    transition: all 0.25s; display: inline-flex; align-items: center; gap: 0.5rem;
+    box-shadow: 0 8px 30px rgba(46,107,230,0.4);
+  }
+  .btn-primary:hover { background: var(--accent-light); transform: translateY(-2px); box-shadow: 0 12px 40px rgba(46,107,230,0.5); }
+  .btn-secondary {
+    background: rgba(255,255,255,0.08); color: var(--white);
+    padding: 0.9rem 2rem; border-radius: 50px;
+    font-size: 0.95rem; font-weight: 600;
+    text-decoration: none; border: 1px solid rgba(255,255,255,0.2);
+    cursor: pointer; transition: all 0.25s;
+    display: inline-flex; align-items: center; gap: 0.5rem;
+  }
+  .btn-secondary:hover { background: rgba(255,255,255,0.14); transform: translateY(-2px); }
+
+  .hero-stats {
+    display: flex; gap: 2.5rem; margin-top: 3rem;
+    animation: fadeUp 0.7s ease 0.4s both;
+  }
+  .hero-stat strong {
+    display: block; font-family: 'Syne', sans-serif;
+    font-size: 1.6rem; font-weight: 800; color: var(--white);
+  }
+  .hero-stat span { font-size: 0.8rem; color: rgba(255,255,255,0.5); }
+
+  /* Phone mockup */
+  .hero-visual {
+    display: flex; justify-content: center; align-items: center;
+    position: relative; animation: fadeUp 0.8s ease 0.2s both;
+  }
+  .phone-stack {
+    position: relative; width: 260px; height: 520px;
+  }
+  .phone-card {
+    position: absolute;
+    width: 220px;
+    background: #0d1f3c;
+    border-radius: 32px;
+    overflow: hidden;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.08);
+    transition: transform 0.4s ease;
+  }
+  .phone-card img { width: 100%; display: block; }
+  .phone-card:nth-child(1) {
+    left: 0; top: 40px; z-index: 3;
+    transform: rotate(-6deg);
+  }
+  .phone-card:nth-child(2) {
+    left: 40px; top: 10px; z-index: 2;
+    transform: rotate(0deg);
+  }
+  .phone-card:nth-child(3) {
+    left: 70px; top: 55px; z-index: 1;
+    transform: rotate(6deg);
+  }
+  .hero-visual:hover .phone-card:nth-child(1) { transform: rotate(-8deg) translateX(-10px); }
+  .hero-visual:hover .phone-card:nth-child(2) { transform: translateY(-8px); }
+  .hero-visual:hover .phone-card:nth-child(3) { transform: rotate(8deg) translateX(10px); }
+
+  /* ─── SECTION SHARED ──────────────────── */
+  section { padding: 7rem 6%; }
+  .section-label {
+    font-size: 0.78rem; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 0.8rem;
+  }
+  .section-title {
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 800; letter-spacing: -1px;
+    color: var(--navy); line-height: 1.12;
+  }
+  .section-title .light { font-weight: 300; }
+  .center { text-align: center; }
+  .max-w { max-width: 1200px; margin: 0 auto; }
+
+  /* ─── FEATURES ────────────────────────── */
+  .features { background: var(--gray-light); }
+  .features-header { margin-bottom: 4rem; }
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+  }
+  .feature-card {
+    background: var(--white);
+    border-radius: 20px; padding: 2rem;
+    border: 1px solid rgba(13,31,60,0.07);
+    box-shadow: 0 2px 16px rgba(13,31,60,0.05);
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: default;
+  }
+  .feature-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 48px rgba(46,107,230,0.12);
+  }
+  .feature-icon {
+    width: 52px; height: 52px; border-radius: 14px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-light));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; margin-bottom: 1.2rem;
+  }
+  .feature-card h3 {
+    font-size: 1.05rem; font-weight: 700;
+    color: var(--navy); margin-bottom: 0.5rem;
+  }
+  .feature-card p { font-size: 0.88rem; color: var(--gray); line-height: 1.6; }
+
+  /* ─── HOW IT WORKS ────────────────────── */
+  .how { background: var(--white); }
+  .steps-wrap {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 0; margin-top: 4rem; position: relative;
+  }
+  .steps-wrap::before {
+    content: '';
+    position: absolute; top: 36px; left: 10%; right: 10%; height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-light));
+    z-index: 0;
+  }
+  .step {
+    text-align: center; padding: 0 1.5rem;
+    position: relative; z-index: 1;
+  }
+  .step-num {
+    width: 72px; height: 72px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--navy), var(--blue));
+    color: var(--white); font-family: 'Syne', sans-serif;
+    font-size: 1.5rem; font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 1.4rem; border: 4px solid var(--white);
+    box-shadow: 0 0 0 2px var(--accent);
+  }
+  .step h3 { font-size: 1rem; font-weight: 700; color: var(--navy); margin-bottom: 0.5rem; }
+  .step p { font-size: 0.85rem; color: var(--gray); line-height: 1.6; }
+
+  /* ─── GALLERY ─────────────────────────── */
+  .gallery {
+    background: var(--navy);
+    padding: 7rem 6%;
+  }
+  .gallery .section-label { color: var(--accent-light); }
+  .gallery .section-title { color: var(--white); }
+  .gallery-sub { color: rgba(255,255,255,0.55); margin-top: 0.5rem; font-size: 1rem; }
+  .gallery-phones {
+    display: flex; gap: 2rem; justify-content: center;
+    margin-top: 4rem; flex-wrap: wrap;
+  }
+  .gallery-phone {
+    width: 200px; flex-shrink: 0;
+    background: rgba(255,255,255,0.04);
+    border-radius: 28px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+    transition: transform 0.4s, box-shadow 0.4s;
+    cursor: default;
+  }
+  .gallery-phone:hover {
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: 0 50px 100px rgba(46,107,230,0.3);
+  }
+  .gallery-phone img { width: 100%; display: block; }
+  .gallery-phone-label {
+    text-align: center; color: rgba(255,255,255,0.5);
+    font-size: 0.78rem; padding: 0.8rem 0;
+    letter-spacing: 0.5px;
+  }
+  .gallery-phone:nth-child(2) { transform: translateY(-20px); }
+  .gallery-phone:nth-child(2):hover { transform: translateY(-32px) scale(1.02); }
+
+  /* ─── BENEFITS ────────────────────────── */
+  .benefits { background: var(--gray-light); }
+  .benefits-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 2rem; margin-top: 3.5rem;
+    align-items: center;
+  }
+  .benefits-list { display: flex; flex-direction: column; gap: 1.5rem; }
+  .benefit-item {
+    display: flex; gap: 1.2rem; align-items: flex-start;
+    background: var(--white); border-radius: 16px; padding: 1.5rem;
+    border: 1px solid rgba(13,31,60,0.07);
+    box-shadow: 0 2px 12px rgba(13,31,60,0.04);
+    transition: transform 0.3s;
+  }
+  .benefit-item:hover { transform: translateX(6px); }
+  .benefit-icon {
+    width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
+    background: linear-gradient(135deg, rgba(46,107,230,0.15), rgba(91,143,249,0.1));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem;
+  }
+  .benefit-item h4 { font-size: 1rem; font-weight: 700; color: var(--navy); margin-bottom: 0.3rem; }
+  .benefit-item p { font-size: 0.85rem; color: var(--gray); line-height: 1.6; }
+  .benefits-visual {
+    display: flex; justify-content: center; align-items: center;
+  }
+  .benefits-phone {
+    width: 240px;
+    background: var(--navy);
+    border-radius: 36px;
+    overflow: hidden;
+    box-shadow: 0 40px 80px rgba(13,31,60,0.3);
+    border: 8px solid var(--white);
+  }
+  .benefits-phone img { width: 100%; display: block; }
+
+  /* ─── CTA ─────────────────────────────── */
+  .cta-section {
+    background: linear-gradient(135deg, var(--navy) 0%, #0e2850 100%);
+    text-align: center;
+    padding: 8rem 6%;
+    position: relative; overflow: hidden;
+  }
+  .cta-section::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(46,107,230,0.2) 0%, transparent 70%);
+  }
+  .cta-section h2 {
+    font-size: clamp(2.2rem, 4vw, 3.5rem); font-weight: 800;
+    color: var(--white); letter-spacing: -1.5px;
+    margin-bottom: 1rem; position: relative;
+  }
+  .cta-section p {
+    color: rgba(255,255,255,0.6); font-size: 1.05rem;
+    margin-bottom: 2.5rem; max-width: 500px; margin-left: auto; margin-right: auto;
+    position: relative;
+  }
+  .cta-btns {
+    display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+    position: relative;
+  }
+  .store-btn {
+    display: inline-flex; align-items: center; gap: 0.8rem;
+    background: var(--white); color: var(--navy);
+    padding: 0.9rem 1.8rem; border-radius: 14px;
+    text-decoration: none; font-weight: 600;
+    transition: all 0.25s;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  }
+  .store-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,0.3); }
+  .store-btn .store-icon { font-size: 1.5rem; }
+  .store-btn .store-text small { display: block; font-size: 0.7rem; font-weight: 400; opacity: 0.6; }
+  .store-btn .store-text strong { font-size: 1rem; font-family: 'Syne', sans-serif; }
+  .store-btn-dark {
+    background: #1a1a2e; color: var(--white);
+  }
+
+  /* ─── FOOTER ──────────────────────────── */
+  footer {
+    background: #07111f;
+    padding: 3rem 6%;
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+  .footer-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 1.5rem;
+  }
+  .footer-logo {
+    font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 800;
+    color: var(--white);
+  }
+  .footer-logo span { color: var(--accent-light); }
+  .footer-copy { font-size: 0.82rem; color: rgba(255,255,255,0.35); }
+  .footer-links { display: flex; gap: 1.8rem; }
+  .footer-links a {
+    color: rgba(255,255,255,0.45); font-size: 0.82rem;
+    text-decoration: none; transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--white); }
+
+  /* ─── ANIMATIONS ──────────────────────── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .reveal {
+    opacity: 0; transform: translateY(32px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ─── RESPONSIVE ──────────────────────── */
+  @media (max-width: 900px) {
+    .hero-grid { grid-template-columns: 1fr; text-align: center; }
+    .hero-sub { margin: 0 auto 2.5rem; }
+    .hero-btns { justify-content: center; }
+    .hero-stats { justify-content: center; }
+    .hero-visual { margin-top: 3rem; }
+    .benefits-grid { grid-template-columns: 1fr; }
+    .benefits-visual { display: none; }
+    .steps-wrap::before { display: none; }
+    .nav-links { display: none; }
+  }
+  @media (max-width: 600px) {
+    nav { padding: 1rem 4%; }
+    .hero, section, .gallery, .cta-section { padding-left: 4%; padding-right: 4%; }
+    .gallery-phone { width: 160px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Proctor<span>ly</span></div>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#gallery">Preview</a></li>
+    <li><a href="#benefits">Benefits</a></li>
+  </ul>
+  <a href="#cta" class="nav-cta">Download</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-grid max-w">
+    <div class="hero-content">
+      <div class="hero-badge">AI-Powered Exam Monitoring</div>
+      <h1>Stay Focused.<br><span class="accent">Stay Honest.</span></h1>
+      <p class="hero-sub">Proctorly combines AI monitoring and smart productivity tools to create a fair, focused exam environment — for students and faculty alike.</p>
+      <div class="hero-btns">
+        <a href="#cta" class="btn-primary">⬇ Download App</a>
+        <a href="#features" class="btn-secondary">Explore Features →</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><strong>12+</strong><span>Active Proctors</span></div>
+        <div class="hero-stat"><strong>3</strong><span>User Roles</span></div>
+        <div class="hero-stat"><strong>100%</strong><span>AI-Driven</span></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="phone-stack">
+        <div class="phone-card">
+          <img src="images/faculty.jpg" alt="Faculty Home">
+        </div>
+        <div class="phone-card">
+          <img src="images/student.jpg" alt="Student Home">
+        </div>
+        <div class="phone-card">
+          <img src="images/admin.jpg" alt="Admin Home">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+  <div class="max-w">
+    <div class="features-header center reveal">
+      <div class="section-label">What We Offer</div>
+      <h2 class="section-title">Built for Academic <span class="light">Integrity</span></h2>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card reveal">
+        <div class="feature-icon">🤖</div>
+        <h3>AI Monitoring</h3>
+        <p>Advanced AI tracks student behaviour in real-time, flagging anomalies and suspicious patterns instantly during any session.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon">🛡️</div>
+        <h3>Anti-Cheating Detection</h3>
+        <p>Multi-layer detection algorithms identify tab switching, unusual movements, and unauthorised activity the moment it happens.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon">🎯</div>
+        <h3>Focus Mode</h3>
+        <p>Creates a distraction-free zone during study sessions, keeping students locked in and performing at their peak.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon">🔔</div>
+        <h3>Real-Time Alerts</h3>
+        <p>Admins and faculty receive instant notifications the moment anything requires attention, ensuring swift response.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon">💬</div>
+        <h3>Smart Chat Assistant</h3>
+        <p>A built-in AI assistant helps students navigate the app and get quick answers without breaking their flow.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+  <div class="max-w">
+    <div class="center reveal">
+      <div class="section-label">The Process</div>
+      <h2 class="section-title">How <span class="light">It Works</span></h2>
+    </div>
+    <div class="steps-wrap">
+      <div class="step reveal">
+        <div class="step-num">1</div>
+        <h3>Open the App</h3>
+        <p>Log in as a student, faculty member, or admin. Your dashboard is ready immediately.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">2</div>
+        <h3>Start a Session</h3>
+        <p>Faculty create sessions, students book their slots, and the system assigns proctors automatically.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">3</div>
+        <h3>AI Monitors</h3>
+        <p>During the session, AI watches for anomalies and flags anything suspicious in real time.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">4</div>
+        <h3>Get Insights</h3>
+        <p>After the session, detailed reports and activity logs are available for review by faculty and admins.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery" id="gallery">
+  <div class="max-w">
+    <div class="center reveal">
+      <div class="section-label">App Preview</div>
+      <h2 class="section-title" style="color:white">See It <span style="font-weight:300">In Action</span></h2>
+      <p class="gallery-sub">A clean, intuitive interface for every role — student, faculty, and admin.</p>
+    </div>
+    <div class="gallery-phones">
+      <div class="gallery-phone reveal">
+        <img src="images/faculty.jpg" alt="Faculty Dashboard">
+        <div class="gallery-phone-label">Faculty Home</div>
+      </div>
+      <div class="gallery-phone reveal">
+        <img src="images/student.jpg" alt="Student Dashboard">
+        <div class="gallery-phone-label">Student Home</div>
+      </div>
+      <div class="gallery-phone reveal">
+        <img src="images/admin.jpg" alt="Admin Dashboard">
+        <div class="gallery-phone-label">Admin Home</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFITS -->
+<section class="benefits" id="benefits">
+  <div class="max-w">
+    <div class="reveal">
+      <div class="section-label">Why Proctorly</div>
+      <h2 class="section-title">Built for <span class="light">Students</span></h2>
+    </div>
+    <div class="benefits-grid" style="margin-top:3.5rem">
+      <div class="benefits-list">
+        <div class="benefit-item reveal">
+          <div class="benefit-icon">🧠</div>
+          <div>
+            <h4>Improves Focus</h4>
+            <p>Structured sessions eliminate distractions, helping students perform at their best when it counts.</p>
+          </div>
+        </div>
+        <div class="benefit-item reveal">
+          <div class="benefit-icon">✅</div>
+          <div>
+            <h4>Prevents Cheating</h4>
+            <p>Intelligent monitoring ensures a level playing field, protecting the value of honest work.</p>
+          </div>
+        </div>
+        <div class="benefit-item reveal">
+          <div class="benefit-icon">💪</div>
+          <div>
+            <h4>Builds Discipline</h4>
+            <p>Regular monitored sessions help students develop the habits that lead to long-term academic success.</p>
+          </div>
+        </div>
+        <div class="benefit-item reveal">
+          <div class="benefit-icon">⚡</div>
+          <div>
+            <h4>Easy to Use</h4>
+            <p>An intuitive interface means students spend zero time figuring out the app and all their time studying.</p>
+          </div>
+        </div>
+      </div>
+      <div class="benefits-visual reveal">
+        <div class="benefits-phone">
+          <img src="images/student.jpg" alt="Student Home">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="cta">
+  <h2 class="reveal">Ready to Elevate<br>Academic Integrity?</h2>
+  <p class="reveal">Join thousands of students and faculty using Proctorly to create fairer, more focused exam experiences.</p>
+  <div class="cta-btns reveal">
+    <a href="#" class="store-btn">
+      <span class="store-icon">🍎</span>
+      <span class="store-text">
+        <small>Download on the</small>
+        <strong>App Store</strong>
+      </span>
+    </a>
+    <a href="#" class="store-btn store-btn-dark">
+      <span class="store-icon">▶</span>
+      <span class="store-text">
+        <small>Get it on</small>
+        <strong>Google Play</strong>
+      </span>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">Proctor<span>ly</span></div>
+    <div class="footer-copy">© 2026 Proctorly inc. All rights reserved.</div>
+    <div class="footer-links">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Contact</a>
+      <a href="#">Terms</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => io.observe(el));
+
+  // Nav shrink on scroll
+  const nav = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    nav.style.padding = window.scrollY > 60 ? '0.8rem 6%' : '1.2rem 6%';
+  });
+</script>
+</body>
+</html>
